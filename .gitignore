@@ -1,0 +1,24 @@
+# Project data — sensitive, kept local only
+project_ymls/
+ingest/
+
+# Source documents (PDFs, DOCX, etc.)
+assets/docs/
+docs/
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+
+# Claude instructions and memory
+CLAUDE.md
+SKILL_GAPS.md
+.claude/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
