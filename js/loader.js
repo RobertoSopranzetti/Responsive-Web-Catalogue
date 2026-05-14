@@ -1,7 +1,5 @@
 const MANIFEST = 'project_ymls/index.json';
 
-// jsyaml is loaded as a global via the UMD script tag in index.html
-
 export async function loadAllSchede() {
   const manifest = await fetch(MANIFEST).then(r => r.json());
   return Promise.all(

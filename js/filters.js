@@ -12,7 +12,6 @@ export function applyFilters(schede, { stato, anno, query }) {
       if (n < range.start || n > range.end) return false;
     }
     if (query) {
-      const q = query.toLowerCase();
       const attivita = (s.contributo_mac?.attivita_principali || [])
         .flatMap(a => [a.campo, a.valore].filter(Boolean));
       const tech = (s.contributo_mac?.tecnologie_mac || []).map(t => t.nome);
@@ -20,8 +19,9 @@ export function applyFilters(schede, { stato, anno, query }) {
         ? Object.values(s.kpi).filter(Boolean)
         : (s.risultati_e_kpi || []).flatMap(k => [k.metrica, k.valore]);
       const partners = Array.isArray(s.progetto?.partner)
-        ? s.progetto.partner.map(p => p.nome || p)
-        : [s.progetto?.partner].filter(Boolean);
+        ? s.progetto.partner.map(p => p.nome || '').filter(Boolean)
+        : (typeof s.progetto?.partner === 'string' ? [s.progetto.partner] : []);
+      const q = query.toLowerCase();
       const haystack = [
         s.progetto?.nome,
         s.progetto?.acronimo,

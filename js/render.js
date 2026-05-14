@@ -11,6 +11,8 @@ const MESI_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio
 const _oggi = new Date();
 const MESE_ANNO = `${MESI_IT[_oggi.getMonth()]} ${_oggi.getFullYear()}`;
 
+const cleanVal = v => (v && v !== 'N.D.' ? v : '');
+
 function renderPartner(partner) {
   if (!partner) return '';
   if (typeof partner === 'string') return partner;
@@ -51,7 +53,6 @@ function renderKpiRow(kpi, kpi_label, risultati_e_kpi) {
     }).join('');
     return `<div class="kpi-row">${cells}</div>`;
   }
-  // fallback: old schema risultati_e_kpi[]
   const kpis = risultati_e_kpi || [];
   if (!kpis.length) return '';
   const cells = kpis.slice(0, 4).map(k => {
@@ -96,9 +97,9 @@ export function renderCard(scheda) {
   const referenzeItems = (val.referenze || []).map(r => `<li>${r}</li>`).join('');
 
   const fromDataset = dataset.map(d => {
-    const titolo = d.tipo && d.tipo !== 'N.D.' ? d.tipo : '';
-    const contenuto = d.contenuto && d.contenuto !== 'N.D.' ? d.contenuto : '';
-    const riuso = d.riuso_potenziale && d.riuso_potenziale !== 'N.D.' ? d.riuso_potenziale : '';
+    const titolo = cleanVal(d.tipo);
+    const contenuto = cleanVal(d.contenuto);
+    const riuso = cleanVal(d.riuso_potenziale);
     if (!titolo && !contenuto) return '';
     const head = titolo ? `<strong>${titolo}</strong>` : '';
     const body = contenuto ? (head ? ' — ' + contenuto : contenuto) : '';
@@ -107,22 +108,22 @@ export function renderCard(scheda) {
   }).filter(Boolean);
 
   const fromAssets = (val.asset_prodotti || [])
-    .filter(a => a && a !== 'N.D.')
+    .filter(cleanVal)
     .map(a => `<li>${a}</li>`);
 
   const datasetItems = [...fromDataset, ...fromAssets].join('');
 
-  const progTag = [p.programma, p.codice].filter(v => v && v !== 'N.D.').join(' · ');
+  const progTag = [p.programma, p.codice].filter(cleanVal).join(' · ');
 
-  const trl = p.trl && p.trl !== 'N.D.' ? p.trl : '';
-  const ente = p.ente_finanziatore && p.ente_finanziatore !== 'N.D.' ? p.ente_finanziatore : '';
+  const trl = cleanVal(p.trl);
+  const ente = cleanVal(p.ente_finanziatore);
   const heroRight = (trl || ente) ? `
     <div class="hero-right">
       ${trl ? `<div class="trl-badge">${trl}</div>` : ''}
       ${ente ? `<div class="ente-tag">${ente}</div>` : ''}
     </div>` : '';
 
-  const footerParts = [p.acronimo, p.programma, p.codice, 'Uso riservato'].filter(v => v && v !== 'N.D.');
+  const footerParts = [p.acronimo, p.programma, p.codice, 'Uso riservato'].filter(cleanVal);
 
   return `
 <div class="scheda">
@@ -184,7 +185,6 @@ export function renderCard(scheda) {
     <div class="card dark">
       <div class="card-label">Capacità e referenze MAC</div>
       ${competenzeItems ? `<p><strong>Competenze acquisite:</strong></p><ul>${competenzeItems}</ul>` : ''}
-      ${(val.asset_prodotti || []).length ? `<p style="margin-top:6px"><strong>Asset prodotti:</strong></p><ul>${(val.asset_prodotti || []).map(a => `<li>${a}</li>`).join('')}</ul>` : ''}
       ${referenzeItems ? `<p style="margin-top:6px"><strong>Referenze:</strong></p><ul>${referenzeItems}</ul>` : ''}
       ${val.posizionamento ? `<p style="margin-top:6px"><strong>Posizionamento:</strong> ${val.posizionamento.trim()}</p>` : ''}
     </div>
