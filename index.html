@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Filter</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <title>Book delle Ricerche MAC — Catalogo Progetti</title>
+  <link rel="stylesheet" href="assets/catalogo.css">
 </head>
+
 <body>
 
-    <p class="heading">SELECT YOUR CHOICE</p>
-    <div class="tabs">
-        <div id="menTab" class="tab" onclick="selectCategory('Men')">Men</div>
-        <div id="womenTab" class="tab" onclick="selectCategory('Women')">Women</div>
-        <div id="kidsTab" class="tab" onclick="selectCategory('Kids')">Kids</div>
+  <div class="filter-bar">
+    <div class="filter-bar-logo">
+      <img src="assets/mac_logo_white.png" alt="MAC logo">
     </div>
-
-    <div id="productContainer" class="cardContainer">
+    <div class="filter-controls">
+      <label class="filter-label" for="filter-stato">Stato</label>
+      <select id="filter-stato" class="filter-select">
+        <option value="tutti">Tutti</option>
+        <option value="In corso">In corso</option>
+        <option value="Completato">Completato</option>
+        <option value="In sperimentazione">In sperimentazione</option>
+        <option value="In attesa di approvazione">In attesa di approvazione</option>
+      </select>
+      <label class="filter-label" for="filter-anno">Anno</label>
+      <select id="filter-anno" class="filter-select">
+        <option value="tutti">Tutti</option>
+      </select>
+      <input type="text" id="filter-search" class="filter-input" placeholder="Cerca progetto, tecnologia…"
+        aria-label="Cerca nel catalogo" autocomplete="off">
+      <span class="filter-count" id="filter-count"></span>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <div class="catalog-wrap" id="schede-container">
+    <div class="empty-state">Caricamento schede…</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="script.js"></script>
+
 </body>
+
 </html>
