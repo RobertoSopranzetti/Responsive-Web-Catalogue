@@ -1,0 +1,518 @@
+/* Book delle Ricerche MAC — Catalogo navigabile
+   CSS estratto da 20260512_BOOK_CATALOGO_MAC_v5.html e adattato per uso come app */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Aptos', 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #000000;
+  background: #f4f4f4;
+}
+
+/* ── Filter bar (sostituisce la nav statica del v5) ───────────────────── */
+.filter-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #0E2841;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #E97132;
+}
+
+.filter-bar-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.filter-bar-logo img {
+  height: 28px;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.filter-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+}
+
+.filter-select,
+.filter-input {
+  font-family: inherit;
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  outline: none;
+  cursor: pointer;
+}
+
+.filter-select option {
+  background: #0E2841;
+  color: #FFFFFF;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+  border-color: #E97132;
+}
+
+.filter-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.filter-input {
+  min-width: 180px;
+  cursor: text;
+}
+
+.filter-count {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ── Catalog wrapper ──────────────────────────────────────────────────── */
+.catalog-wrap {
+  padding-top: 56px; /* compensa filter-bar fissa */
+}
+
+.empty-state {
+  max-width: 600px;
+  margin: 80px auto;
+  text-align: center;
+  color: #595959;
+  font-size: 13px;
+  line-height: 1.8;
+  padding: 32px;
+  background: #FFFFFF;
+}
+
+.empty-state code {
+  font-family: monospace;
+  background: #f4f4f4;
+  padding: 2px 6px;
+}
+
+/* ── Scheda (layout identico al v5) ──────────────────────────────────── */
+.scheda {
+  max-width: 900px;
+  margin: 24px auto;
+  background: #FFFFFF;
+  page-break-after: always;
+}
+
+.top-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  border-bottom: 2px solid #0E2841;
+  background: #FFFFFF;
+}
+
+.top-strip img {
+  height: 32px;
+}
+
+.top-strip .strip-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.top-strip .meta-doc {
+  font-size: 10px;
+  color: #595959;
+  text-align: right;
+}
+
+.btn-allegati {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  border: 1px solid #d1d5db;
+  padding: 3px 10px;
+  cursor: default;
+  background: #FFFFFF;
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.btn-allegati.active {
+  color: #156082;
+  border-color: #156082;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.btn-allegati.active:hover {
+  background: #156082;
+  color: #FFFFFF;
+}
+
+.hero {
+  background: #0E2841;
+  color: #FFFFFF;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hero-left {
+  flex: 1;
+}
+
+.hero-left .prog-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 4px;
+}
+
+.hero-left h1 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.hero-left .subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 12px;
+}
+
+.meta-row {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.meta-value {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.meta-value.partners {
+  font-weight: 400;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.nd {
+  color: #9ca3af;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-right {
+  margin-left: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.trl-badge {
+  background: #156082;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.status-badge {
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ente-tag {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 6px;
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.kpi-cell {
+  padding: 12px 14px;
+  border-right: 1px solid #E8E8E8;
+  text-align: center;
+}
+
+.kpi-cell:last-child {
+  border-right: none;
+}
+
+.kpi-header {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #156082;
+  margin-bottom: 4px;
+}
+
+.kpi-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0E2841;
+  line-height: 1.1;
+}
+
+.kpi-value.nd,
+.kpi-value.nd-val {
+  font-size: 14px;
+  color: #9ca3af;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.kpi-label {
+  font-size: 10px;
+  color: #595959;
+  margin-top: 2px;
+}
+
+.kpi-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kpi-tag.mac {
+  background: #E97132;
+  color: #FFFFFF;
+}
+
+.kpi-tag.sistema {
+  background: #E8E8E8;
+  color: #595959;
+}
+
+.overview {
+  padding: 14px 24px;
+  border-bottom: 1px solid #E8E8E8;
+  background: #fafafa;
+}
+
+.overview p {
+  font-size: 12px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.card {
+  padding: 14px 18px;
+  border-right: 1px solid #E8E8E8;
+}
+
+.card:last-child {
+  border-right: none;
+}
+
+.card.dark {
+  background: #0E2841;
+  color: #FFFFFF;
+}
+
+.card.light {
+  background: #E8E8E8;
+}
+
+.card-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #156082;
+  margin-bottom: 8px;
+}
+
+.card.dark .card-label {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.card p {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.card.dark p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card ul {
+  padding-left: 14px;
+}
+
+.card ul li {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+
+.card.dark ul li {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.pill {
+  border: 1px solid #156082;
+  color: #156082;
+  font-size: 10px;
+  padding: 2px 8px;
+  font-weight: 500;
+}
+
+.note-partner {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #595959;
+}
+
+.footer {
+  background: #FFFFFF;
+  border-top: 2px solid #0E2841;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-left {
+  font-size: 10px;
+  color: #0E2841;
+  font-weight: 700;
+}
+
+.footer-right {
+  font-size: 10px;
+  color: #595959;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .filter-controls {
+    gap: 6px;
+  }
+
+  .filter-input {
+    min-width: 120px;
+  }
+
+  .scheda {
+    margin: 12px 8px;
+  }
+
+  .kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    border-right: none;
+    border-bottom: 1px solid #E8E8E8;
+  }
+
+  .meta-row {
+    gap: 14px;
+  }
+}
+
+/* ── Print ────────────────────────────────────────────────────────────── */
+@media print {
+  .filter-bar {
+    display: none;
+  }
+
+  .catalog-wrap {
+    padding-top: 0;
+  }
+
+  .scheda {
+    margin: 0;
+    page-break-after: always;
+  }
+
+  body {
+    background: white;
+  }
+}
