@@ -119,7 +119,7 @@ export function renderCard(scheda) {
   return `
 <div class="scheda">
   <div class="top-strip">
-    <img src="assets/mac_logo_dark.png" alt="MAC logo">
+    <img src="assets/docs/pics/mac_logo_dark.png" alt="MAC logo">
     <div class="strip-right">
       ${p.documento_url
         ? `<a class="btn-allegati active" href="${p.documento_url}" target="_blank" rel="noopener">&#128206; Allegati</a>`
