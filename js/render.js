@@ -29,45 +29,29 @@ function renderPartner(partner) {
   return '';
 }
 
-// Renders the 4-cell KPI bar.
-// Supports two schemas: current (kpi object + optional kpi_label descriptions)
-// and old (risultati_e_kpi array with pertinenza_mac field).
-function renderKpiRow(kpi, kpi_label, risultati_e_kpi) {
-  if (kpi && typeof kpi === 'object' && !Array.isArray(kpi)) {
-    const headers = {
-      feature_principali: { label: 'Feature principali', tag: 'mac' },
-      benefici_pratici:   { label: 'Benefici pratici',   tag: 'mac' },
-      monitoring:         { label: 'Monitoring',          tag: 'mac' },
-      integrazioni:       { label: 'Integrazioni',        tag: 'sistema' },
-    };
-    const cells = Object.entries(headers).map(([key, { label, tag }]) => {
-      const shortVal = kpi[key] || 'N.D.';
-      const isNd = shortVal === 'N.D.';
-      const tagLabel = tag === 'mac' ? 'MAC' : 'Sistema';
-      const descText = kpi_label && kpi_label[key];
-      const descLine = descText
-        ? `<div class="kpi-label">${descText}</div>`
-        : (isNd ? `<div class="kpi-label" style="color:#9ca3af;font-style:italic">Dato non disponibile</div>` : '');
-      return `
+// Renders the 4-cell KPI bar from the current schema (kpi object + optional kpi_label).
+function renderKpiRow(kpi, kpi_label) {
+  if (!kpi || typeof kpi !== 'object' || Array.isArray(kpi)) return '';
+  const headers = {
+    feature_principali: { label: 'Feature principali', tag: 'mac' },
+    benefici_pratici:   { label: 'Benefici pratici',   tag: 'mac' },
+    monitoring:         { label: 'Monitoring',          tag: 'mac' },
+    integrazioni:       { label: 'Integrazioni',        tag: 'sistema' },
+  };
+  const cells = Object.entries(headers).map(([key, { label, tag }]) => {
+    const shortVal = kpi[key] || 'N.D.';
+    const isNd = shortVal === 'N.D.';
+    const tagLabel = tag === 'mac' ? 'MAC' : 'Sistema';
+    const descText = kpi_label && kpi_label[key];
+    const descLine = descText
+      ? `<div class="kpi-label">${descText}</div>`
+      : (isNd ? `<div class="kpi-label" style="color:#9ca3af;font-style:italic">Dato non disponibile</div>` : '');
+    return `
       <div class="kpi-cell">
         <div class="kpi-header">${label}</div>
         <div class="kpi-value${isNd ? ' nd' : ''}">${shortVal}</div>
         ${descLine}
         <span class="kpi-tag ${tag}">${tagLabel}</span>
-      </div>`;
-    }).join('');
-    return `<div class="kpi-row">${cells}</div>`;
-  }
-  const kpis = risultati_e_kpi || [];
-  if (!kpis.length) return '';
-  const cells = kpis.slice(0, 4).map(k => {
-    const tagClass = k.pertinenza_mac === 'diretta' ? 'mac' : 'sistema';
-    const tagLabel = k.pertinenza_mac === 'diretta' ? 'MAC' : 'Sistema';
-    return `
-      <div class="kpi-cell">
-        <div class="kpi-header">${k.metrica}</div>
-        <div class="kpi-value">${k.valore}</div>
-        <span class="kpi-tag ${tagClass}">${tagLabel}</span>
       </div>`;
   }).join('');
   return `<div class="kpi-row">${cells}</div>`;
@@ -98,7 +82,7 @@ export function renderCard(scheda) {
   const introTech = mac.intro_tecnologie ? `<p>${mac.intro_tecnologie}</p>` : '';
   const notePartner = mac.note_partner ? `<p class="note-partner">${mac.note_partner}</p>` : '';
 
-  const kpiHtml = renderKpiRow(scheda.kpi, scheda.kpi_label, scheda.risultati_e_kpi);
+  const kpiHtml = renderKpiRow(scheda.kpi, scheda.kpi_label);
 
   const competenzeItems = (val.competenze_acquisite || []).map(c => `<li>${c}</li>`).join('');
   const referenzeItems = (val.referenze || []).map(r => `<li>${r}</li>`).join('');
@@ -218,5 +202,5 @@ export function renderCatalogo(schede) {
     return;
   }
   container.innerHTML = schede.map(renderCard).join('');
-  if (count) count.textContent = `${schede.length} scheda${schede.length !== 1 ? 'e' : ''}`;
+  if (count) count.textContent = `${schede.length} ${schede.length === 1 ? 'scheda' : 'schede'}`;
 }
