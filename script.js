@@ -2,6 +2,7 @@ import { loadAllSchede } from './js/loader.js';
 import { setupFilters } from './js/filters.js';
 import { renderCatalogo } from './js/render.js';
 
+// Entry point: loads all project YAMLs, renders the initial catalogue, then wires up filters.
 async function init() {
   try {
     const allSchede = await loadAllSchede();

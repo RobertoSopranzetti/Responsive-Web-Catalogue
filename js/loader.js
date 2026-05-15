@@ -1,5 +1,7 @@
 const MANIFEST = 'project_ymls/index.json';
 
+// Fetches index.json, then loads and parses every YAML listed in it.
+// Returns an array of plain objects (one per project).
 export async function loadAllSchede() {
   const manifest = await fetch(MANIFEST).then(r => r.json());
   return Promise.all(
@@ -11,6 +13,9 @@ export async function loadAllSchede() {
   );
 }
 
+// Extracts the year range covered by a project from progetto.periodo (regex on 4-digit years).
+// Falls back to the old-schema catalogo.anno_inizio / anno_fine fields.
+// Returns { start, end } or null if no year is found.
 export function extractAnnoRange(scheda) {
   const periodo = scheda.progetto?.periodo || '';
   const years = (periodo.match(/\d{4}/g) || []).map(Number).filter(y => y >= 1990 && y <= 2100);
@@ -20,6 +25,7 @@ export function extractAnnoRange(scheda) {
   return null;
 }
 
+// Returns the project status string, supporting both current and old YAML schemas.
 export function getStato(scheda) {
   return scheda.progetto?.stato || scheda.catalogo?.stato || '';
 }

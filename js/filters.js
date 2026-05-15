@@ -1,5 +1,8 @@
 import { extractAnnoRange, getStato } from './loader.js';
 
+// Pure filter: returns the subset of schede matching all active criteria.
+// stato and anno use 'tutti' as the "no filter" sentinel value.
+// query is matched against a wide haystack (nome, acronimo, overview, tech, kpi, partners…).
 export function applyFilters(schede, { stato, anno, query }) {
   return schede.filter(s => {
     if (stato && stato !== 'tutti') {
@@ -40,6 +43,8 @@ export function applyFilters(schede, { stato, anno, query }) {
   });
 }
 
+// Collects every individual year covered by any project and returns them sorted.
+// Used to populate the Anno <select> options on page load.
 export function buildAnniOptions(schede) {
   const anni = new Set();
   schede.forEach(s => {
@@ -51,6 +56,9 @@ export function buildAnniOptions(schede) {
   return Array.from(anni).sort((a, b) => a - b);
 }
 
+// Wires up all filter controls (stato select, anno select, search input).
+// onRefresh is called with the filtered array whenever any control changes.
+// The search input is debounced by 200 ms to avoid re-rendering on every keystroke.
 export function setupFilters(schede, onRefresh) {
   const selStato = document.getElementById('filter-stato');
   const selAnno = document.getElementById('filter-anno');

@@ -13,6 +13,8 @@ const MESE_ANNO = `${MESI_IT[_oggi.getMonth()]} ${_oggi.getFullYear()}`;
 
 const cleanVal = v => (v && v !== 'N.D.' ? v : '');
 
+// Formats the partner field as a readable string.
+// Handles three shapes: string (old schema), array of {nome, ruolo} objects, or missing.
 function renderPartner(partner) {
   if (!partner) return '';
   if (typeof partner === 'string') return partner;
@@ -27,6 +29,9 @@ function renderPartner(partner) {
   return '';
 }
 
+// Renders the 4-cell KPI bar.
+// Supports two schemas: current (kpi object + optional kpi_label descriptions)
+// and old (risultati_e_kpi array with pertinenza_mac field).
 function renderKpiRow(kpi, kpi_label, risultati_e_kpi) {
   if (kpi && typeof kpi === 'object' && !Array.isArray(kpi)) {
     const headers = {
@@ -68,6 +73,8 @@ function renderKpiRow(kpi, kpi_label, risultati_e_kpi) {
   return `<div class="kpi-row">${cells}</div>`;
 }
 
+// Builds the full HTML string for a single project card (mirrors the v5 book layout).
+// dataset_output entries and asset_prodotti are merged into the same "output" card section.
 export function renderCard(scheda) {
   const p = scheda.progetto || {};
   const mac = scheda.contributo_mac || {};
@@ -200,6 +207,8 @@ export function renderCard(scheda) {
 </div>`;
 }
 
+// Replaces the content of #schede-container with all cards and updates the count chip.
+// Shows an empty-state message when the filtered list is empty.
 export function renderCatalogo(schede) {
   const container = document.getElementById('schede-container');
   const count = document.getElementById('filter-count');
