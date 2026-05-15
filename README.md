@@ -1,11 +1,17 @@
-# Book delle Ricerche MAC — Catalogo Progetti
+# Book delle Ricerche — Catalogo Progetti
 
-Catalogo navigabile dei progetti di ricerca MAC. Ogni progetto è descritto da un file YAML e reso come scheda visiva con filtri per stato, anno e ricerca testuale.
+Catalogo navigabile di progetti. Ogni progetto è descritto da un file YAML e reso come scheda visiva con filtri per stato, anno e ricerca testuale.
 
 ## Avvio
 
 Il catalogo usa `fetch()` e deve essere servito via HTTP — non aprire `index.html` direttamente come file.
 
+**Con Node** (consigliato se hai già Node installato):
+```bash
+npm start
+```
+
+**Con Python** (alternativa, nessuna dipendenza):
 ```bash
 python -m http.server 8000
 ```
@@ -17,7 +23,7 @@ Poi apri `http://localhost:8000`.
 1. Salva il file YAML del progetto in `project_ymls/<ACRONIMO>.yaml`
 2. Rigenera il manifest:
    ```bash
-   node scripts/generate-index.mjs
+   npm run generate
    ```
 3. Ricarica `http://localhost:8000`
 
@@ -43,6 +49,7 @@ js/
   render.js           ← rendering card
 scripts/
   generate-index.mjs  ← rigenera project_ymls/index.json
+package.json          ← definisce npm start e npm run generate
 index.html
 script.js             ← entry point
 ```
