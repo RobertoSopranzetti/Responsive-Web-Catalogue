@@ -18,14 +18,18 @@
       <label class="filter-label" for="filter-stato">Stato</label>
       <select id="filter-stato" class="filter-select">
         <option value="tutti">Tutti</option>
-        <option value="In corso">In corso</option>
-        <option value="Completato">Completato</option>
-        <option value="In sperimentazione">In sperimentazione</option>
-        <option value="In attesa di approvazione">In attesa di approvazione</option>
       </select>
       <label class="filter-label" for="filter-anno">Anno</label>
       <select id="filter-anno" class="filter-select">
         <option value="tutti">Tutti</option>
+      </select>
+      <label class="filter-label" for="filter-sort">Ordine</label>
+      <select id="filter-sort" class="filter-select">
+        <option value="default">Default</option>
+        <option value="anno-desc">Anno ↓</option>
+        <option value="anno-asc">Anno ↑</option>
+        <option value="acronimo">Acronimo A-Z</option>
+        <option value="stato">Stato</option>
       </select>
       <input type="text" id="filter-search" class="filter-input" placeholder="Cerca progetto, tecnologia…"
         aria-label="Cerca nel catalogo" autocomplete="off">
