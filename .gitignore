@@ -5,6 +5,7 @@ ingest/
 # Source documents (PDFs, DOCX, etc.)
 assets/docs/
 docs/
+allegati/
 *.pdf
 *.docx
 *.doc
